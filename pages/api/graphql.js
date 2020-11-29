@@ -1,15 +1,5 @@
 import { ApolloServer, gql } from 'apollo-server-micro'
-
-const typeDefs = gql`
-  type Query {
-    users: [User!]!
-    test: String
-  }
-  type User {
-    id: Int!
-    firstName: String
-  }
-`
+import typeDefs from 'gql/schema'
 
 const resolvers = {
   Query: {
