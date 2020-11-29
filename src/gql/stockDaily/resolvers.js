@@ -1,6 +1,6 @@
 export default {
   Query: {
-    stocks: () => {
+    stockDaily: () => {
       return [{
         name: 'MOCK_NAME',
         date: '20201001',

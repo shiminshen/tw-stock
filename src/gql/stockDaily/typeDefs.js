@@ -10,7 +10,7 @@ export default gql`
     price: Int
   }
 
-  type Query {
-    stocks: [StockDaily!]
+  extend type Query {
+    stockDaily: [StockDaily!]
   }
 `
