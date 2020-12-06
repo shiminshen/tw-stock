@@ -1,11 +1,13 @@
 export default {
   Query: {
-    stockDaily: () => {
-      return [{
-        name: 'MOCK_NAME',
-        date: '20201001',
-        price: 10
-      }]
+    stockDaily: async (_, { stockId }, { mongoClient }) => {
+      const cursor = await mongoClient
+      .db('stockDaily')
+      .collection(stockId)
+      .find({})
+
+      const list = await cursor.toArray()
+      return list
     }
   }
 }

@@ -6,11 +6,14 @@ export default gql`
     date: String
     buy: Int
     sell: Int
-    amount: Int
+    volume: Int
+    avgBuyPrice: Int
+    avgSellPrice: Int
     price: Int
+    profitRate: Int
   }
 
   extend type Query {
-    stockDaily: [StockDaily!]
+    stockDaily(stockId: String): [StockDaily!]
   }
 `
