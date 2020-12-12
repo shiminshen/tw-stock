@@ -1,13 +1,13 @@
 export default {
   Query: {
-    stockDaily: async (_, { stockId }, { mongoClient }) => {
+    stockDaily: async (_, {stockId}, {mongoClient}) => {
       const cursor = await mongoClient
-      .db('stockDaily')
-      .collection(stockId)
-      .find({})
+        .db('stockDaily')
+        .collection(stockId)
+        .find({});
 
-      const list = await cursor.toArray()
-      return list
+      const list = await cursor.toArray();
+      return list;
     }
   }
-}
+};

@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "lint": "xo",
+    "lintfix": "xo --fix",
     "start": "next start"
   },
   "dependencies": {
@@ -19,5 +21,11 @@
     "react-dom": "16.13.1",
     "remark": "^12.0.0",
     "remark-html": "^12.0.0"
+  },
+  "devDependencies": {
+    "eslint-config-xo-react": "^0.23.0",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "xo": "^0.35.0"
   }
 }

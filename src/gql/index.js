@@ -1,34 +1,34 @@
-import { ApolloServer } from 'apollo-server-micro'
-import { merge } from 'lodash'
+import {ApolloServer} from 'apollo-server-micro';
+import {merge} from 'lodash';
 
-import { initMongo, getMongoInstance } from './database'
+import {initMongo, getMongoInstance} from './database';
 import {
   typeDefs as StockDaily,
   resolvers as stockDailyResolvers
-} from './stockDaily'
+} from './stockDaily';
 import {
   typeDefs as StockList,
   resolvers as stockListResolvers
-} from './stockList'
+} from './stockList';
 
 const Query = `
   type Query {
     _empty: String
   }
-`
+`;
 
-const typeDefs = [Query, StockDaily, StockList]
-const resolvers = merge(stockDailyResolvers, stockListResolvers)
+const typeDefs = [Query, StockDaily, StockList];
+const resolvers = merge(stockDailyResolvers, stockListResolvers);
 
-initMongo()
+initMongo();
 
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req }) => ({
+  context: () => ({
     mongoClient: getMongoInstance()
   }),
   tracing: true
-})
+});
 
-export default apolloServer
+export default apolloServer;
