@@ -1,6 +1,6 @@
-import React from 'react';
-import 'styles/global.css';
+import React from 'react'
+import 'styles/global.css'
 
 export default ({Component, pageProps}) => {
-  return <Component {...pageProps}/>;
-};
+  return <Component {...pageProps} />
+}

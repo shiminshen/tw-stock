@@ -4,9 +4,9 @@ export default {
       const list = await mongoClient
         .db('brokerDaily')
         .listCollections()
-        .map(I => I.name)
-        .toArray();
-      return list;
+        .map((I) => I.name)
+        .toArray()
+      return list
     }
   }
-};
+}

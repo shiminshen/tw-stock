@@ -1,7 +1,7 @@
-import React from 'react';
-import Head from 'next/head';
-import Layout, {siteTitle} from 'components/layout';
-import utilStyles from 'styles/utils.module.css';
+import React from 'react'
+import Head from 'next/head'
+import Layout, {siteTitle} from 'components/layout'
+import utilStyles from 'styles/utils.module.css'
 
 export default () => {
   return (
@@ -18,14 +18,14 @@ export default () => {
       </section>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Blog</h2>
-        <ul className={utilStyles.list}/>
+        <ul className={utilStyles.list} />
       </section>
     </Layout>
-  );
-};
+  )
+}
 
 export async function getStaticProps() {
   return {
     props: {}
-  };
+  }
 }
