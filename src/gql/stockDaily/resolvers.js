@@ -1,4 +1,4 @@
-export default {
+const resolver = {
   Query: {
     stockDaily: async (_, {stockId}, {mongoClient}) => {
       const cursor = await mongoClient.db('stockDaily').collection(stockId).find({})
@@ -8,3 +8,5 @@ export default {
     }
   }
 }
+
+export default resolver

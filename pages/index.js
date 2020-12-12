@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Layout, {siteTitle} from 'components/layout'
 import utilStyles from 'styles/utils.module.css'
 
-export default () => {
+const Home = () => {
   return (
     <Layout home>
       <Head>
@@ -29,3 +29,5 @@ export async function getStaticProps() {
     props: {}
   }
 }
+
+export default Home

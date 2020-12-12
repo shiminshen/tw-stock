@@ -1,4 +1,4 @@
-export default {
+const resolver = {
   Query: {
     stockList: async (_, __, {mongoClient}) => {
       const list = await mongoClient
@@ -10,3 +10,5 @@ export default {
     }
   }
 }
+
+export default resolver
