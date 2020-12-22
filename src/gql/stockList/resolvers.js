@@ -1,6 +1,6 @@
 const resolver = {
   Query: {
-    stockList: async (_, __, {mongoClient}) => {
+    stockList: async (_, __, { mongoClient }) => {
       const list = await mongoClient
         .db('brokerDaily')
         .listCollections()

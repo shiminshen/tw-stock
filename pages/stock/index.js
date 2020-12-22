@@ -1,11 +1,11 @@
-import React from 'react';
-import Stock from '../../src/components/stock';
+import React from 'react'
+import Stock from '../../src/components/stock'
 
 // Intialize before import react-dates
-import 'react-dates/initialize';
+import 'react-dates/initialize'
 
 const StockPage = () => {
-	return <Stock />;
-};
+  return <Stock />
+}
 
-export default StockPage;
+export default StockPage
