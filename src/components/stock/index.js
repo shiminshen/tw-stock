@@ -1,11 +1,24 @@
 import React, { useState } from 'react'
+import { gql } from '@apollo/client'
+import { useLazyQuery } from '@apollo/react-hooks'
 import moment from 'moment'
-
 import { Formik, Form, useField } from 'formik'
 
 import { DateRangePicker } from 'react-dates'
 
 import 'react-dates/lib/css/_datepicker.css'
+
+const GET_STOCK_DAILY = gql`
+  query stockDaily($stockId: String!, $startDate: String!, $endDate: String!) {
+    stockDaily(stockId: $stockId, startDate: $startDate, endDate: $endDate) {
+      name
+      date
+      buy
+      sell
+      volume
+    }
+  }
+`
 
 const DatePicker = () => {
   const [{ value: startDate }, , { setValue: setStartDate }] = useField('startDate')
@@ -41,6 +54,7 @@ const StockIdInput = () => {
 
 const StockForm = () => {
   const initialDate = moment().format('YYYYMMDD')
+  const [getStockDaily, { loading, data }] = useLazyQuery(GET_STOCK_DAILY)
   return (
     <Formik
       initialValues={{
@@ -49,7 +63,7 @@ const StockForm = () => {
         endDate: initialDate
       }}
       onSubmit={(values /* , actions */) => {
-        console.log(JSON.stringify(values, null, 2))
+        getStockDaily({ variables: values })
       }}
     >
       {() => (

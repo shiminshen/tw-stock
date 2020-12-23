@@ -1,8 +1,8 @@
 const resolver = {
   Query: {
     stockDaily: async (_, { stockId, startDate, endDate }, { mongoClient }) => {
-      const query = { stockId, startDate: { $gte: startDate }, endDate: { $gte: endDate } }
-      const cursor = await mongoClient.db('stockDaily').collection(stockId).find(query)
+      const query = { date: { $gte: startDate, $lte: endDate } }
+      const cursor = await mongoClient.db('stockDaily').collection(stockId).find({ })
 
       const list = await cursor.toArray()
       return list
