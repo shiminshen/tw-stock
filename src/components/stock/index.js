@@ -55,6 +55,10 @@ const StockIdInput = () => {
 const StockForm = () => {
   const initialDate = moment().format('YYYYMMDD')
   const [getStockDaily, { loading, data }] = useLazyQuery(GET_STOCK_DAILY)
+  // TODO remove useless console
+  console.log(loading)
+  console.log(data)
+
   return (
     <Formik
       initialValues={{
