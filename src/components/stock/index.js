@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import styled from 'styled-components'
 import { gql } from '@apollo/client'
 import { useLazyQuery } from '@apollo/react-hooks'
 import moment from 'moment'
@@ -18,6 +19,24 @@ const GET_STOCK_DAILY = gql`
       volume
     }
   }
+`
+
+const Input = styled.input`
+  padding: 11px 11px 9px;
+  border-radius: 2px;
+  border: 1px solid #dbdbdb;
+  font-weight: 200;
+  font-size: 19px;
+  line-height: 24px;
+`
+
+const Button = styled.button`
+  padding: 11px 11px 9px;
+  border-radius: 2px;
+  border: 1px solid #dbdbdb;
+  font-weight: 200;
+  font-size: 19px;
+  line-height: 24px;
 `
 
 const DatePicker = () => {
@@ -47,10 +66,16 @@ const StockIdInput = () => {
   return (
     <div>
       {/* <label htmlFor="stockId">stockId</label> */}
-      <input {...field} />
+      <Input {...field} />
     </div>
   )
 }
+
+const StyledForm = styled(Form)`
+  max-width: 768px;
+  display: flex;
+  justify-content: space-around;
+`
 
 const StockForm = () => {
   const initialDate = moment().format('YYYYMMDD')
@@ -64,18 +89,18 @@ const StockForm = () => {
       initialValues={{
         stockId: '',
         startDate: initialDate,
-        endDate: initialDate
+        endDate: initialDate,
       }}
       onSubmit={(values /* , actions */) => {
         getStockDaily({ variables: values })
       }}
     >
       {() => (
-        <Form>
+        <StyledForm>
           <StockIdInput />
           <DatePicker />
-          <button type="submit">Search</button>
-        </Form>
+          <Button type="submit">Search</Button>
+        </StyledForm>
       )}
     </Formik>
   )
