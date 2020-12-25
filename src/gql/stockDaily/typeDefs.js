@@ -5,8 +5,9 @@ export default gql`
     name: String
     buy: Int
     sell: Int
-    avgBuyPrice: Int
-    avgSellPrice: Int
+    volume: Int
+    avgBuyPrice: Float
+    avgSellPrice: Float
   }
 
   extend type Query {

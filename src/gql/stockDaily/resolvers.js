@@ -14,8 +14,8 @@ const aggregateDailyTransactionData = (data, key) => {
         buy,
         sell,
         volume: buy - sell,
-        avgBuyPrice: buyCost / buy,
-        avgSellPrice: sellCost / sell,
+        avgBuyPrice: buyCost / buy || 0,
+        avgSellPrice: sellCost / sell || 0,
       }
     })
   )(data)
@@ -29,8 +29,8 @@ const resolver = {
       // TODO fix db name
       const cursor = await mongoClient.db('stockBrokerDaily').collection(stockId).find(query)
       const list = await cursor.toArray()
-      console.log(aggregateDailyTransactionData(list, 'name'))
-      return list
+      const data = aggregateDailyTransactionData(list, 'name')
+      return data
     },
   },
 }
