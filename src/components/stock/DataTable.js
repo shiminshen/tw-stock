@@ -115,6 +115,14 @@ const DataTable = ({ data, loading }) => {
         // FIXME fix float in slider filter
         filter: filterGreaterThan,
         Filter: SliderColumnFilter
+      },
+      {
+        Header: 'Profit Rate',
+        accessor: 'profitRate',
+        disableFilters: true,
+        // FIXME fix float in slider filter
+        filter: filterGreaterThan,
+        Filter: SliderColumnFilter
       }
     ],
     []
@@ -197,7 +205,7 @@ const DataTable = ({ data, loading }) => {
                   // Loop over the rows cells
                   row.cells.map((cell, cellIndex) => {
                     // Apply the cell props
-                    const value = ['avgBuyPrice', 'avgSellPrice'].includes(cell.column.id)
+                    const value = ['avgBuyPrice', 'avgSellPrice', 'profitRate'].includes(cell.column.id)
                       ? cell.value.toFixed(2)
                       : cell.value
                     return (

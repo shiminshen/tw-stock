@@ -8,6 +8,7 @@ export default gql`
     volume: Int
     avgBuyPrice: Float
     avgSellPrice: Float
+    profitRate: Float
   }
 
   extend type Query {

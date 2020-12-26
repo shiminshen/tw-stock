@@ -16,6 +16,7 @@ const GET_STOCK_DAILY = gql`
       volume
       avgBuyPrice
       avgSellPrice
+      profitRate
     }
   }
 `

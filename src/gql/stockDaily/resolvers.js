@@ -8,14 +8,18 @@ const aggregateDailyTransactionData = (data, key) => {
       const sell = _.sumBy('sell')(V)
       const buyCost = _.sumBy((I) => I.buy * I.avgBuyPrice || 0)(V)
       const sellCost = _.sumBy((I) => I.sell * I.avgSellPrice || 0)(V)
+      const avgBuyPrice = buyCost / buy || 0
+      const avgSellPrice = sellCost / sell || 0
+      const profitRate = avgBuyPrice ? (avgSellPrice - avgBuyPrice) * 100 / avgBuyPrice : 0
 
       return {
         [key]: V?.[0]?.[key],
         buy,
         sell,
         volume: buy - sell,
-        avgBuyPrice: buyCost / buy || 0,
-        avgSellPrice: sellCost / sell || 0
+        avgBuyPrice,
+        avgSellPrice, 
+        profitRate
       }
     })
   )(data)
