@@ -15,7 +15,7 @@ const aggregateDailyTransactionData = (data, key) => {
         sell,
         volume: buy - sell,
         avgBuyPrice: buyCost / buy || 0,
-        avgSellPrice: sellCost / sell || 0,
+        avgSellPrice: sellCost / sell || 0
       }
     })
   )(data)
@@ -31,8 +31,8 @@ const resolver = {
       const list = await cursor.toArray()
       const data = aggregateDailyTransactionData(list, 'name')
       return data
-    },
-  },
+    }
+  }
 }
 
 export default resolver

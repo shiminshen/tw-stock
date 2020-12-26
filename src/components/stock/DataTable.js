@@ -17,20 +17,61 @@ const Td = styled.td`
 `
 
 // Define a default UI for filtering
-const DefaultColumnFilter = ({
-  column: { filterValue, preFilteredRows, setFilter },
-}) => {
+const DefaultColumnFilter = ({ column: { filterValue, preFilteredRows, setFilter } }) => {
   const count = preFilteredRows.length
 
   return (
     <input
       value={filterValue || ''}
-      onChange={e => {
-        setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
-      }}
       placeholder={`Search ${count} records...`}
+      onChange={(event) => {
+        setFilter(event.target.value || undefined) // Set undefined to remove the filter entirely
+      }}
     />
   )
+}
+
+// This is a custom filter UI that uses a
+// slider to set the filter value between a column's
+// min and max values
+const SliderColumnFilter = ({ column: { filterValue, setFilter, preFilteredRows, id } }) => {
+  // Calculate the min and max
+  // using the preFilteredRows
+
+  const [min, max] = React.useMemo(() => {
+    let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
+    let max = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
+    preFilteredRows.forEach((row) => {
+      min = Math.min(row.values[id], min)
+      max = Math.max(row.values[id], max)
+    })
+    return [min, max]
+  }, [id, preFilteredRows])
+
+  return (
+    <>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        value={filterValue || min}
+        onChange={(event) => {
+          setFilter(Number.parseInt(event.target.value, 10))
+        }}
+      />
+      <button type="button" onClick={() => setFilter(undefined)}>
+        Off
+      </button>
+    </>
+  )
+}
+
+// Define a custom filter filter function!
+const filterGreaterThan = (rows, id, filterValue) => {
+  return rows.filter((row) => {
+    const rowValue = row.values[id]
+    return rowValue >= filterValue
+  })
 }
 
 const DataTable = ({ data, loading }) => {
@@ -39,28 +80,41 @@ const DataTable = ({ data, loading }) => {
     () => [
       {
         Header: 'Name',
-        accessor: 'name',
-        filter: 'fuzzyText',
+        accessor: 'name'
       },
       {
         Header: 'Buy',
-        accessor: 'buy'
+        accessor: 'buy',
+        filter: filterGreaterThan,
+        Filter: SliderColumnFilter
       },
       {
         Header: 'Sell',
-        accessor: 'sell'
+        accessor: 'sell',
+        filter: filterGreaterThan,
+        Filter: SliderColumnFilter
       },
       {
         Header: 'Volume',
-        accessor: 'volume'
+        accessor: 'volume',
+        filter: filterGreaterThan,
+        Filter: SliderColumnFilter
       },
       {
         Header: 'Avg Buy Price',
-        accessor: 'avgBuyPrice'
+        accessor: 'avgBuyPrice',
+        // FIXME fix float in slider filter
+        disableFilters: true,
+        filter: filterGreaterThan,
+        Filter: SliderColumnFilter
       },
       {
         Header: 'Avg Sell Price',
-        accessor: 'avgSellPrice'
+        accessor: 'avgSellPrice',
+        disableFilters: true,
+        // FIXME fix float in slider filter
+        filter: filterGreaterThan,
+        Filter: SliderColumnFilter
       }
     ],
     []
@@ -69,7 +123,7 @@ const DataTable = ({ data, loading }) => {
   const defaultColumn = React.useMemo(
     () => ({
       // Let's set up our default Filter UI
-      Filter: DefaultColumnFilter,
+      Filter: DefaultColumnFilter
     }),
     []
   )
@@ -90,33 +144,33 @@ const DataTable = ({ data, loading }) => {
     getTableBodyProps,
     headerGroups,
     prepareRow,
-    state: { pageIndex, pageSize },
-    // pagination handling
-    page,
-    pageCount,
-    canNextPage,
-    canPreviousPage,
-    gotoPage,
-    nextPage,
-    previousPage
+    // VisibleColumns,
+    // Pagination handling
+    page
+    // PageCount,
+    // canNextPage,
+    // canPreviousPage,
+    // gotoPage,
+    // nextPage,
+    // previousPage
   } = tableInstance
 
   return loading ? (
     <div>loading</div>
   ) : (
-    // apply the table props
+    // Apply the table props
     <Table {...getTableProps()}>
       <thead>
         {
           // Loop over the header rows
-          headerGroups.map((headerGroup) => (
+          headerGroups.map((headerGroup, groupIndex) => (
             // Apply the header row props
-            <tr {...headerGroup.getHeaderGroupProps()}>
+            <tr key={groupIndex} {...headerGroup.getHeaderGroupProps()}>
               {
                 // Loop over the headers in each row
-                headerGroup.headers.map((column) => console.log(column) || (
+                headerGroup.headers.map((column, columnIndex) => (
                   // Apply the header cell props
-                  <Th {...column.getHeaderProps()}>
+                  <Th key={columnIndex} {...column.getHeaderProps()}>
                     {
                       // Render the header
                       column.render('Header')
@@ -133,20 +187,24 @@ const DataTable = ({ data, loading }) => {
       <tbody {...getTableBodyProps()}>
         {
           // Loop over the table rows
-          page.map((row) => {
+          page.map((row, rowIndex) => {
             // Prepare the row for display
             prepareRow(row)
             return (
               // Apply the row props
-              <Tr {...row.getRowProps()}>
+              <Tr key={rowIndex} {...row.getRowProps()}>
                 {
                   // Loop over the rows cells
-                  row.cells.map((cell) => {
+                  row.cells.map((cell, cellIndex) => {
                     // Apply the cell props
                     const value = ['avgBuyPrice', 'avgSellPrice'].includes(cell.column.id)
                       ? cell.value.toFixed(2)
                       : cell.value
-                    return <Td {...cell.getCellProps()}>{value}</Td>
+                    return (
+                      <Td key={cellIndex} {...cell.getCellProps()}>
+                        {value}
+                      </Td>
+                    )
                   })
                 }
               </Tr>

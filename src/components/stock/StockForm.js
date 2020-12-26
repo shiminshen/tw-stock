@@ -71,7 +71,7 @@ const StockForm = ({ getStockDaily }) => {
       initialValues={{
         stockId: '',
         startDate: initialDate,
-        endDate: initialDate,
+        endDate: initialDate
       }}
       onSubmit={(values /* , actions */) => {
         getStockDaily({ variables: values })
