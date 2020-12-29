@@ -22,7 +22,7 @@ const GET_STOCK_DAILY = gql`
   }
 `
 
-const Stock = ({ query = {} }) => {
+const Stock = ({ query }) => {
   const [getStockDaily, { loading, data }] = useLazyQuery(GET_STOCK_DAILY)
   const initialDate = moment().format('YYYYMMDD')
 

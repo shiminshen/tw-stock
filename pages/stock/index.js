@@ -6,7 +6,7 @@ import Stock from '../../src/components/stock'
 // Intialize before import react-dates
 import 'react-dates/initialize'
 
-const StockPage = ({ query }) => {
+const StockPage = ({ query = {} }) => {
   return <Stock query={query} />
 }
 

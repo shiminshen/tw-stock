@@ -10,7 +10,7 @@ const aggregateDailyTransactionData = (data, key) => {
       const sellCost = _.sumBy((I) => I.sell * I.avgSellPrice || 0)(V)
       const avgBuyPrice = buyCost / buy || 0
       const avgSellPrice = sellCost / sell || 0
-      const profitRate = avgBuyPrice ? (avgSellPrice - avgBuyPrice) * 100 / avgBuyPrice : 0
+      const profitRate = avgBuyPrice ? ((avgSellPrice - avgBuyPrice) * 100) / avgBuyPrice : 0
 
       return {
         [key]: V?.[0]?.[key],
@@ -18,7 +18,7 @@ const aggregateDailyTransactionData = (data, key) => {
         sell,
         volume: buy - sell,
         avgBuyPrice,
-        avgSellPrice, 
+        avgSellPrice,
         profitRate
       }
     })
@@ -35,6 +35,19 @@ const resolver = {
       const list = await cursor.toArray()
       const data = aggregateDailyTransactionData(list, 'name')
       return data
+    },
+    stockBrokerDaily: async (_, { stockId, name, startDate, endDate }, { mongoClient }) => {
+      const query = { name, date: { $gte: startDate, $lte: endDate } }
+      // TODO fix db name
+      const cursor = await mongoClient.db('stockBrokerDaily').collection(stockId).find(query)
+      const list = await cursor.toArray()
+
+      return list.map((I) => ({
+        ...I,
+        avgBuyPrice: I.avgBuyPrice || 0,
+        avgSellPrice: I.avgSellPrice || 0,
+        profitRate: I.profitRate || 0
+      }))
     }
   }
 }
