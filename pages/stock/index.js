@@ -6,8 +6,10 @@ import Stock from '../../src/components/stock'
 // Intialize before import react-dates
 import 'react-dates/initialize'
 
-const StockPage = () => {
-  return <Stock />
+const StockPage = ({ query }) => {
+  return <Stock query={query} />
 }
+
+StockPage.getInitialProps = ({ query }) => ({ query })
 
 export default withApollo(StockPage)

@@ -63,16 +63,10 @@ const StyledForm = styled(Form)`
   justify-content: space-around;
 `
 
-const StockForm = ({ getStockDaily }) => {
-  const initialDate = moment().format('YYYYMMDD')
-
+const StockForm = ({ initialFormData, getStockDaily }) => {
   return (
     <Formik
-      initialValues={{
-        stockId: '',
-        startDate: initialDate,
-        endDate: initialDate
-      }}
+      initialValues={initialFormData}
       onSubmit={(values /* , actions */) => {
         getStockDaily({ variables: values })
       }}

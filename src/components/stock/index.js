@@ -1,4 +1,5 @@
 import React from 'react'
+import moment from 'moment'
 import { gql } from '@apollo/client'
 import { useLazyQuery } from '@apollo/react-hooks'
 
@@ -21,13 +22,20 @@ const GET_STOCK_DAILY = gql`
   }
 `
 
-const Stock = () => {
+const Stock = ({ query = {} }) => {
   const [getStockDaily, { loading, data }] = useLazyQuery(GET_STOCK_DAILY)
+  const initialDate = moment().format('YYYYMMDD')
+
+  const initialFormData = {
+    stockId: query.stockId || '',
+    startDate: query.startDate || initialDate,
+    endDate: query.endDate || initialDate,
+  }
 
   return (
     <div>
       <h1>Stock Analysis</h1>
-      <StockForm getStockDaily={getStockDaily} />
+      <StockForm initialFormData={initialFormData} getStockDaily={getStockDaily} />
       <DataTable data={data} loading={loading} />
     </div>
   )
