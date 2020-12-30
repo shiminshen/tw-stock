@@ -7,10 +7,8 @@ import BrokerData from 'components/stock/BrokerData'
 // Intialize before import react-dates
 import 'react-dates/initialize'
 
-const StockWithStockIdPage = ({ query = {}}) => {
-  return (
-    <BrokerData query={query} />
-  )
+const StockWithStockIdPage = ({ query = {} }) => {
+  return <BrokerData query={query} />
 }
 
 StockWithStockIdPage.getInitialProps = ({ query }) => ({ query })

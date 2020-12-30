@@ -2,8 +2,11 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import moment from 'moment'
 import { Formik, Form, useField } from 'formik'
+import { gql } from '@apollo/client'
+import { useLazyQuery } from '@apollo/react-hooks'
 
 import { DateRangePicker } from 'react-dates'
+import DataTable from './DataTable'
 
 import 'react-dates/lib/css/_datepicker.css'
 
@@ -63,7 +66,23 @@ const StyledForm = styled(Form)`
   justify-content: space-around;
 `
 
-const StockForm = ({ initialFormData, getStockDaily }) => {
+const GET_STOCK_DAILY = gql`
+  query stockDaily($stockId: String!, $startDate: String!, $endDate: String!) {
+    stockDaily(stockId: $stockId, startDate: $startDate, endDate: $endDate) {
+      name
+      buy
+      sell
+      volume
+      avgBuyPrice
+      avgSellPrice
+      profitRate
+    }
+  }
+`
+
+const StockForm = ({ initialFormData }) => {
+  const [getStockDaily, { loading, data }] = useLazyQuery(GET_STOCK_DAILY)
+
   return (
     <Formik
       initialValues={initialFormData}
@@ -71,12 +90,15 @@ const StockForm = ({ initialFormData, getStockDaily }) => {
         getStockDaily({ variables: values })
       }}
     >
-      {() => (
-        <StyledForm>
-          <StockIdInput />
-          <DatePicker />
-          <Button type="submit">Search</Button>
-        </StyledForm>
+      {({ values }) => (
+        <>
+          <StyledForm>
+            <StockIdInput />
+            <DatePicker />
+            <Button type="submit">Search</Button>
+          </StyledForm>
+          <DataTable data={data} queryValues={values} loading={loading} />
+        </>
       )}
     </Formik>
   )

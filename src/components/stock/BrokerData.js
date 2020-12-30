@@ -23,8 +23,8 @@ const GET_STOCK_DAILY = gql`
 `
 
 const Stock = ({ query }) => {
-  const { stockId, brokerName: name, startDate, endDate } = query;
-  const { loading, error, data } = useQuery(GET_STOCK_DAILY, {
+  const { stockId, brokerName: name, startDate, endDate } = query
+  const { data } = useQuery(GET_STOCK_DAILY, {
     variables: {
       stockId,
       name,

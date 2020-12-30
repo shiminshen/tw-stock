@@ -13,6 +13,11 @@ export default gql`
 
   extend type Query {
     stockDaily(stockId: String!, startDate: String, endDate: String): [StockDaily!]
-    stockBrokerDaily(stockId: String!, name: String!, startDate: String, endDate: String): [StockDaily!]
+    stockBrokerDaily(
+      stockId: String!
+      name: String!
+      startDate: String
+      endDate: String
+    ): [StockDaily!]
   }
 `

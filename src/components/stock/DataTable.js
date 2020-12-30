@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import Link from 'next/link'
 import styled from 'styled-components'
 import { useTable, usePagination, useFilters } from 'react-table'
 
@@ -74,7 +75,8 @@ const filterGreaterThan = (rows, id, filterValue) => {
   })
 }
 
-const DataTable = ({ data, loading }) => {
+const DataTable = ({ data, queryValues, loading }) => {
+  console.log(queryValues)
   const brokerData = useMemo(() => data?.stockDaily || [], [data])
   const columns = useMemo(
     () => [
@@ -205,9 +207,29 @@ const DataTable = ({ data, loading }) => {
                   // Loop over the rows cells
                   row.cells.map((cell, cellIndex) => {
                     // Apply the cell props
-                    const value = ['avgBuyPrice', 'avgSellPrice', 'profitRate'].includes(cell.column.id)
+                    const columnId = cell.column.id
+                    const value = ['avgBuyPrice', 'avgSellPrice', 'profitRate'].includes(columnId)
                       ? cell.value.toFixed(2)
                       : cell.value
+
+                    if (columnId === 'name') {
+                      return (
+                        <Td key={cellIndex} {...cell.getCellProps()}>
+                          <Link
+                            href={{
+                              pathname: '/stock/[stockId]',
+                              query: {
+                                ...queryValues,
+                                brokerName: cell.value
+                              }
+                            }}
+                          >
+                            <a>{value}</a>
+                          </Link>
+                        </Td>
+                      )
+                    }
+
                     return (
                       <Td key={cellIndex} {...cell.getCellProps()}>
                         {value}
