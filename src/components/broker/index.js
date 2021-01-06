@@ -3,7 +3,7 @@ import moment from 'moment'
 import { gql } from '@apollo/client'
 import { useLazyQuery } from '@apollo/react-hooks'
 
-import StockForm from 'components/common/StockForm'
+import StockForm from './StockForm'
 
 import 'react-dates/lib/css/_datepicker.css'
 
