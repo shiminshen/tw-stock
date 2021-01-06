@@ -13,13 +13,14 @@ const aggregateDailyTransactionData = (data, key) => {
       const profitRate = avgBuyPrice ? ((avgSellPrice - avgBuyPrice) * 100) / avgBuyPrice : 0
 
       return {
-        [key]: V?.[0]?.[key],
+        name: V?.[0]?.name,
+        stockId: V?.[0]?.stockId,
         buy,
         sell,
         volume: buy - sell,
         avgBuyPrice,
         avgSellPrice,
-        profitRate
+        profitRate,
       }
     })
   )(data)
@@ -28,7 +29,7 @@ const aggregateDailyTransactionData = (data, key) => {
 
 const resolver = {
   Query: {
-    stockDaily: async (_, { name, startDate, endDate }, { mongoClient }) => {
+    brokerDaily: async (_, { name, startDate, endDate }, { mongoClient }) => {
       const query = { date: { $gte: startDate, $lte: endDate } }
       // TODO fix db name
       const cursor = await mongoClient.db('brokerStockDaily').collection(name).find(query)
@@ -36,7 +37,7 @@ const resolver = {
       const data = aggregateDailyTransactionData(list, 'stockId')
       return data
     },
-    stockBrokerDaily: async (_, { stockId, name, startDate, endDate }, { mongoClient }) => {
+    brokerStockDaily: async (_, { stockId, name, startDate, endDate }, { mongoClient }) => {
       const query = { stockId, date: { $gte: startDate, $lte: endDate } }
       // TODO fix db name
       const cursor = await mongoClient.db('brokerStockDaily').collection(name).find(query)
@@ -46,10 +47,10 @@ const resolver = {
         ...I,
         avgBuyPrice: I.avgBuyPrice || 0,
         avgSellPrice: I.avgSellPrice || 0,
-        profitRate: I.profitRate || 0
+        profitRate: I.profitRate || 0,
       }))
-    }
-  }
+    },
+  },
 }
 
 export default resolver

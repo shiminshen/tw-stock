@@ -3,6 +3,7 @@ import { gql } from 'apollo-server-micro'
 export default gql`
   type StockDaily {
     name: String
+    stockId: String
     buy: Int
     sell: Int
     volume: Int

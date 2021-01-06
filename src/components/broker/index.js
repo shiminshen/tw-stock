@@ -3,13 +3,13 @@ import moment from 'moment'
 import { gql } from '@apollo/client'
 import { useLazyQuery } from '@apollo/react-hooks'
 
-import StockForm from './StockForm'
+import StockForm from 'components/common/StockForm'
 
 import 'react-dates/lib/css/_datepicker.css'
 
-const GET_STOCK_DAILY = gql`
-  query stockDaily($stockId: String!, $startDate: String!, $endDate: String!) {
-    stockDaily(stockId: $stockId, startDate: $startDate, endDate: $endDate) {
+const GET_BROKER_DAILY = gql`
+  query brokerDaily($name: String!, $startDate: String!, $endDate: String!) {
+    brokerDaily(name: $name, startDate: $startDate, endDate: $endDate) {
       name
       buy
       sell
@@ -22,7 +22,7 @@ const GET_STOCK_DAILY = gql`
 `
 
 const Stock = ({ query }) => {
-  const [getStockDaily, queryData] = useLazyQuery(GET_STOCK_DAILY)
+  const [getStockDaily, queryData] = useLazyQuery(GET_BROKER_DAILY)
   const initialDate = moment().format('YYYYMMDD')
 
   const initialFormData = {
