@@ -6,6 +6,7 @@ export default gql`
     buy: Int
     sell: Int
     volume: Int
+    date: String
     avgBuyPrice: Float
     avgSellPrice: Float
     profitRate: Float

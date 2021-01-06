@@ -76,7 +76,6 @@ const filterGreaterThan = (rows, id, filterValue) => {
 }
 
 const DataTable = ({ data, queryValues, loading }) => {
-  console.log(queryValues)
   const brokerData = useMemo(() => data?.stockDaily || [], [data])
   const columns = useMemo(
     () => [

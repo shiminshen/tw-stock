@@ -2,7 +2,7 @@ import React from 'react'
 import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/react-hooks'
 
-import 'react-dates/lib/css/_datepicker.css'
+import StockChart from './StockChart'
 
 const GET_STOCK_DAILY = gql`
   query stockBrokerDaily(
@@ -18,6 +18,7 @@ const GET_STOCK_DAILY = gql`
       volume
       avgBuyPrice
       avgSellPrice
+      date
     }
   }
 `
@@ -33,10 +34,13 @@ const Stock = ({ query }) => {
     }
   })
 
+  const stockData = data?.stockBrokerDaily
+  console.log(stockData)
+
   return (
     <div>
       <h1>Stock Broker Analysis</h1>
-      {JSON.stringify(data)}
+      <StockChart data={stockData} />
     </div>
   )
 }
