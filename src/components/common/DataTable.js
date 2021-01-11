@@ -76,12 +76,16 @@ const filterGreaterThan = (rows, id, filterValue) => {
 }
 
 const DataTable = ({ data, queryValues, loading }) => {
-  const brokerData = useMemo(() => data?.stockDaily || [], [data])
+  const brokerData = data
   const columns = useMemo(
     () => [
       {
         Header: 'Name',
         accessor: 'name'
+      },
+      {
+        Header: 'StockId',
+        accessor: 'stockId'
       },
       {
         Header: 'Buy',

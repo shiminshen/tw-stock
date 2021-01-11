@@ -20,7 +20,7 @@ const aggregateDailyTransactionData = (data, key) => {
         volume: buy - sell,
         avgBuyPrice,
         avgSellPrice,
-        profitRate,
+        profitRate
       }
     })
   )(data)
@@ -47,10 +47,10 @@ const resolver = {
         ...I,
         avgBuyPrice: I.avgBuyPrice || 0,
         avgSellPrice: I.avgSellPrice || 0,
-        profitRate: I.profitRate || 0,
+        profitRate: I.profitRate || 0
       }))
-    },
-  },
+    }
+  }
 }
 
 export default resolver

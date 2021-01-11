@@ -11,6 +11,7 @@ const GET_BROKER_DAILY = gql`
   query brokerDaily($name: String!, $startDate: String!, $endDate: String!) {
     brokerDaily(name: $name, startDate: $startDate, endDate: $endDate) {
       name
+      stockId
       buy
       sell
       volume
@@ -22,22 +23,25 @@ const GET_BROKER_DAILY = gql`
 `
 
 const Stock = ({ query }) => {
-  const [getStockDaily, queryData] = useLazyQuery(GET_BROKER_DAILY)
+  const [getStockDaily, { loading, data }] = useLazyQuery(GET_BROKER_DAILY)
   const initialDate = moment().format('YYYYMMDD')
+  const queryData = data?.brokerDaily || []
 
   const initialFormData = {
     stockId: query.stockId || '',
     name: query.name || '',
     startDate: query.startDate || initialDate,
-    endDate: query.endDate || initialDate,
+    endDate: query.endDate || initialDate
   }
 
   return (
     <div>
       <h1>Stock Analysis</h1>
       <StockForm
+        searchInputName="name"
         initialFormData={initialFormData}
         queryAction={getStockDaily}
+        loading={loading}
         queryData={queryData}
       />
     </div>

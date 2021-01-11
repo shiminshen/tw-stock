@@ -27,9 +27,9 @@ const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
   context: () => ({
-    mongoClient: getMongoInstance(),
+    mongoClient: getMongoInstance()
   }),
-  tracing: true,
+  tracing: true
 })
 
 export default apolloServer
