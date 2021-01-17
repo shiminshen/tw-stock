@@ -38,7 +38,6 @@ const Stock = ({ query }) => {
 
   return (
     <div>
-      <h1>Stock Broker Analysis</h1>
       <StockChart data={stockData} />
     </div>
   )
