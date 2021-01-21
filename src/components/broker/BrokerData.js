@@ -2,7 +2,7 @@ import React from 'react'
 import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/react-hooks'
 
-import StockChart from './StockChart'
+import StockChart from '../common/StockChart'
 
 const GET_STOCK_DAILY = gql`
   query stockBrokerDaily(

@@ -1,8 +1,10 @@
 import React from 'react'
+import styled from 'styled-components'
 import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/react-hooks'
+import { ParentSize } from '@visx/responsive'
 
-import StockChart from './StockChart'
+import StockChart from '../common/StockChart'
 
 const GET_STOCK_DAILY = gql`
   query stockBrokerDaily(
@@ -23,6 +25,10 @@ const GET_STOCK_DAILY = gql`
   }
 `
 
+const ResponsiveContainer = styled.div`
+  height: 100vh;
+`
+
 const Stock = ({ query }) => {
   const { stockId, brokerName: name, startDate, endDate } = query
   const { data } = useQuery(GET_STOCK_DAILY, {
@@ -37,9 +43,11 @@ const Stock = ({ query }) => {
   const stockData = data?.stockBrokerDaily
 
   return (
-    <div>
-      <StockChart data={stockData} />
-    </div>
+    <ResponsiveContainer>
+      <ParentSize>
+        {({ height, width }) => <StockChart height={height} width={width} data={stockData} />}
+      </ParentSize>
+    </ResponsiveContainer>
   )
 }
 
